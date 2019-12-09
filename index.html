@@ -22,7 +22,9 @@
           ng-repeat="dossier in dossiers"
           ng-class="{active: dossier == dossierCourant}"
         >
-          <a href="#" ng-click="selectDossier(dossier)">{{ dossier.label }}</a>
+          <a href="#/{{ dossier.value }}">{{
+            dossier.label
+          }}</a>
         </li>
       </ul>
       <div ng-show="dossierCourant != null && emailCourant == null">
@@ -39,7 +41,7 @@
             <tr
               class="clickable"
               ng-repeat="email in dossierCourant.emails"
-              ng-click="selectEmail(email)"
+              ng-click="versEmail(dossierCourant, email)"
             >
               <td>{{ email.from }}</td>
               <td>{{ email.to }}</td>
