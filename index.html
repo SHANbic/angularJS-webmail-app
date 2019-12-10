@@ -59,7 +59,7 @@
               <td>{{ email.from }}</td>
               <td>{{ email.to }}</td>
               <td>{{ email.subject }}</td>
-              <td>{{ email.date }}</td>
+              <td>{{ email.date | date: "dd/MM/yyyy" }}</td>
             </tr>
           </tbody>
         </table>
@@ -79,7 +79,7 @@
             <label>&Agrave;:</label><span> {{ emailCourant.to }}</span>
           </p>
           <p>
-            <label>Date:</label><span> {{ emailCourant.date }}</span>
+            <label>Date:</label><span> {{ emailCourant.date | date: "dd/MM/yyyy" }}</span>
           </p>
         </div>
         <p ng-bind-html="emailCourant.content"></p>
@@ -87,12 +87,13 @@
     </div>
     <script
       type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.0.3/angular.min.js"
+      src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.15/angular.min.js"
     ></script>
     <script
       type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.0.3/angular-sanitize.min.js"
+      src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.15/angular-sanitize.min.js"
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.15/i18n/angular-locale_fr-fr.js"></script>
     <script type="text/javascript" src="./app.js"></script>
   </body>
 </html>
