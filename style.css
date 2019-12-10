@@ -2,6 +2,10 @@
   margin-top: 20px;
 }
 
+.hspacer {
+  margin-left: 20px;
+}
+
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
   background-color: #428bca;
@@ -9,4 +13,14 @@
 }
 .clickable:hover {
   cursor: pointer;
+}
+
+.colDe,
+.colA,
+.colDate {
+  width: 20%;
+}
+
+.colObjet {
+  width: 40%;
 }

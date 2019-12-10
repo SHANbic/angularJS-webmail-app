@@ -22,25 +22,38 @@
           ng-repeat="dossier in dossiers"
           ng-class="{active: dossier == dossierCourant}"
         >
-          <a href="#/{{ dossier.value }}">{{
-            dossier.label
-          }}</a>
+          <a href="#/{{ dossier.value }}">{{ dossier.label }}</a>
         </li>
       </ul>
       <div ng-show="dossierCourant != null && emailCourant == null">
         <table class="table table-striped table-hover spacer">
           <thead>
-            <tr class="clickable">
-              <th>De</th>
-              <th>&Agrave;</th>
-              <th>Objet</th>
-              <th>Date</th>
+            <tr>
+              <th class="colDe">
+                <a ng-click="triEmail('from')">De</a>
+                <span class="hspacer" ng-class="cssChevronsTri('from')"></span>
+              </th>
+              <th class="colA">
+                <a ng-click="triEmail('to')">&Agrave;</a>
+                <span class="hspacer" ng-class="cssChevronsTri('to')"></span>
+              </th>
+              <th class="colObjet">
+                <a ng-click="triEmail('subject')">Objet</a
+                ><span
+                  class="hspacer"
+                  ng-class="cssChevronsTri('subject')"
+                ></span>
+              </th>
+              <th class="colDate">
+                <a ng-click="triEmail('date')">Date</a
+                ><span class="hspacer" ng-class="cssChevronsTri('date')"></span>
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr
               class="clickable"
-              ng-repeat="email in dossierCourant.emails"
+              ng-repeat="email in dossierCourant.emails | orderBy:champTri:triDescendant"
               ng-click="versEmail(dossierCourant, email)"
             >
               <td>{{ email.from }}</td>

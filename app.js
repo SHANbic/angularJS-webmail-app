@@ -166,4 +166,25 @@ angular
         }
       }
     );
+    $scope.champTri = null;
+    $scope.triDescendant = false;
+
+    $scope.triEmail = function(champ) {
+      if ($scope.champTri === champ) {
+        $scope.triDescendant = !$scope.triDescendant;
+      } else {
+        $scope.champTri = champ;
+        $scope.triDescendant = false;
+      }
+    };
+
+    $scope.cssChevronsTri = function(champ) {
+      return {
+        glyphicon: $scope.champTri == champ,
+        "glyphicon-chevron-up":
+          $scope.champTri == champ && !$scope.triDescendant,
+        "glyphicon-chevron-down":
+          $scope.champTri == champ && $scope.triDescendant
+      };
+    };
   });
