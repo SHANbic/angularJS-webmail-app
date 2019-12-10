@@ -187,4 +187,11 @@ angular
           $scope.champTri == champ && $scope.triDescendant
       };
     };
+
+    $scope.recherche = null;
+
+    $scope.razRecherche = function() {
+      $scope.recherche = null;
+    };
+
   });
