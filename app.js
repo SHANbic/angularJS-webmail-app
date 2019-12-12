@@ -1,5 +1,5 @@
 angular
-  .module("Webmail", ["ngSanitize", "ui-tinymce"])
+  .module("Webmail", ["ngSanitize", "ui.tinymce"])
   .controller("WebmailCtrl", function($scope, $location) {
     $scope.dossiers = [
       {
@@ -153,17 +153,23 @@ angular
         from: "PierreL",
         date: new Date()
       };
+      $scope.formNouveauMail.$setPristine();
+      document.getElementById("formNouveauMail").reset();
     };
 
     $scope.envoiMail = function() {
-      $scope.dossiers.forEach(function(item) {
-        if (item.value == "ENVOYES") {
-          $scope.nouveauMail.id = $scope.idProchainMail++;
-          item.emails.push($scope.nouveauMail);
-          $scope.nouveauMail = null;
-          $location.path("/");
-        }
-      });
+      if ($scope.formNouveauMail.$valid) {
+        $scope.dossiers.forEach(function(item) {
+          if (item.value == "ENVOYES") {
+            $scope.nouveauMail.id = $scope.idProchainMail++;
+            item.emails.push($scope.nouveauMail);
+            $scope.nouveauMail = null;
+            $location.path("/");
+          }
+        });
+      } else {
+        alert("Merci de vérifier votre saisie");
+      }
     };
 
     $scope.$watch(

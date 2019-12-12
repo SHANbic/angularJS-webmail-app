@@ -37,3 +37,7 @@
 .contenuNouveauMail {
   width: 100%;
 }
+
+input.ng-dirty {
+  background-color: rgba(255, 0, 0, 0.5);
+}

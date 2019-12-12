@@ -113,12 +113,17 @@
       </div>
 
       <div class="spacer" ng-show="nouveauMail != null">
-        <form name="formNouveauMail">
+        <form name="formNouveauMail" id="formNouveauMail">
           <div class="input-group spacer">
             <span class="input-group-addon labelChampNouveauMail"
               >&Agrave;</span
             >
-            <input type="text" class="form-control" ng-model="nouveauMail.to" />
+            <input
+              required
+              type="email"
+              class="form-control"
+              ng-model="nouveauMail.to"
+            />
           </div>
           <div class="input-group spacer">
             <span class="input-group-addon labelChampNouveauMail">Objet</span>
@@ -141,11 +146,15 @@
           </div>
 
           <div class="spacer text-center">
-            <button class="btn btn-primary" ng-click="envoiMail()">
+            <button class="btn btn-success" ng-click="envoiMail()">
               Envoyer le mail
             </button>
             <span class="hspacer"></span>
-            <button class="btn btn-warning" ng-click="razMail()">
+            <button
+              class="btn btn-warning"
+              ng-disabled="formNouveauMail.$pristine"
+              ng-click="razMail()"
+            >
               Remettre à zéro
             </button>
           </div>
@@ -154,15 +163,15 @@
     </div>
     <script
       type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.15/angular.min.js"
+      src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular.min.js"
     ></script>
     <script
       type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.15/angular-sanitize.min.js"
+      src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/angular-sanitize.min.js"
     ></script>
-    <script type="text/javascript" src="./lib/ui-tinymce.js"></script>
     <script type="text/javascript" src="./lib/tinymce/tinymce.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.15/i18n/angular-locale_fr-fr.js"></script>
+    <script type="text/javascript" src="./lib/ui-tinymce.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.29/i18n/angular-locale_fr-fr.js"></script>
     <script type="text/javascript" src="./app.js"></script>
   </body>
 </html>
