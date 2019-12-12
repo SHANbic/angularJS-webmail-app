@@ -28,3 +28,12 @@
 .surbrillance {
   background-color: #ffd42a;
 }
+
+.labelChampNouveauMail {
+  width: 70px;
+}
+
+.input-group,
+.contenuNouveauMail {
+  width: 100%;
+}

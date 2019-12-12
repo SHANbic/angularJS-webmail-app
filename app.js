@@ -126,12 +126,18 @@ angular
         ]
       }
     ];
+
+    $scope.idProchainMail = 12;
     $scope.dossierCourant = null;
     $scope.emailCourant = null;
+    $scope.nouveauMail = null;
 
     $scope.selectDossier = function(dossier) {
       $scope.dossierCourant = dossier;
       $scope.emailCourant = null;
+      if (dossier) {
+        $scope.nouveauMail = null;
+      }
     };
 
     $scope.selectEmail = function(email) {
@@ -142,6 +148,24 @@ angular
       $location.path(`/${dossier.value}/${email.id}`);
     };
 
+    $scope.razMail = function() {
+      $scope.nouveauMail = {
+        from: "PierreL",
+        date: new Date()
+      };
+    };
+
+    $scope.envoiMail = function() {
+      $scope.dossiers.forEach(function(item) {
+        if (item.value == "ENVOYES") {
+          $scope.nouveauMail.id = $scope.idProchainMail++;
+          item.emails.push($scope.nouveauMail);
+          $scope.nouveauMail = null;
+          $location.path("/");
+        }
+      });
+    };
+
     $scope.$watch(
       function() {
         return $location.path();
@@ -149,19 +173,24 @@ angular
       function(newPath) {
         const tabPath = newPath.split("/");
         if (tabPath.length > 1) {
-          const valDossier = tabPath[1];
-          $scope.dossiers.forEach(item => {
-            if (item.value == valDossier) {
-              $scope.selectDossier(item);
-            }
-          });
-          if (tabPath.length > 2) {
-            const idMail = tabPath[2];
-            $scope.dossierCourant.emails.forEach(item => {
-              if (item.id == idMail) {
-                $scope.selectEmail(item);
+          if (tabPath[1] == "nouveauMail") {
+            $scope.razMail();
+            $scope.selectDossier(null);
+          } else {
+            const valDossier = tabPath[1];
+            $scope.dossiers.forEach(item => {
+              if (item.value == valDossier) {
+                $scope.selectDossier(item);
               }
             });
+            if (tabPath.length > 2) {
+              const idMail = tabPath[2];
+              $scope.dossierCourant.emails.forEach(item => {
+                if (item.id == idMail) {
+                  $scope.selectEmail(item);
+                }
+              });
+            }
           }
         }
       }
