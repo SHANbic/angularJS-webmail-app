@@ -130,6 +130,7 @@
           </div>
           <div class="spacer">
             <textarea
+              ui-tinymce="optionsTinyMce"
               class="contenuNouveauMail"
               rows="10"
               ng-model="nouveauMail.content"
@@ -159,6 +160,8 @@
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.15/angular-sanitize.min.js"
     ></script>
+    <script type="text/javascript" src="./lib/ui-tinymce.js"></script>
+    <script type="text/javascript" src="./lib/tinymce/tinymce.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.15/i18n/angular-locale_fr-fr.js"></script>
     <script type="text/javascript" src="./app.js"></script>
   </body>

@@ -1,5 +1,5 @@
 angular
-  .module("Webmail", ["ngSanitize"])
+  .module("Webmail", ["ngSanitize", "ui-tinymce"])
   .controller("WebmailCtrl", function($scope, $location) {
     $scope.dossiers = [
       {
@@ -221,6 +221,12 @@ angular
 
     $scope.razRecherche = function() {
       $scope.recherche = null;
+    };
+
+    $scope.optionsTinyMce = {
+      language: "fr_FR",
+      menubar: false,
+      statusbar: false
     };
   })
   .filter("surbrillance", function() {
