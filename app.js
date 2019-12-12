@@ -153,23 +153,36 @@ angular
         from: "PierreL",
         date: new Date()
       };
+      if (tinyMCE.activeEditor) {
+        tinyMCE.activeEditor.setContent("");
+      }
       $scope.formNouveauMail.$setPristine();
-      document.getElementById("formNouveauMail").reset();
     };
 
     $scope.envoiMail = function() {
-      if ($scope.formNouveauMail.$valid) {
-        $scope.dossiers.forEach(function(item) {
-          if (item.value == "ENVOYES") {
-            $scope.nouveauMail.id = $scope.idProchainMail++;
-            item.emails.push($scope.nouveauMail);
-            $scope.nouveauMail = null;
-            $location.path("/");
-          }
-        });
-      } else {
-        alert("Merci de vérifier votre saisie");
+      const mailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+      if (!$scope.nouveauMail.to || !$scope.nouveauMail.to.match(mailRegex)) {
+        alert("Erreur \n\n Vérifiez votre saisie");
+        return;
       }
+      if (!$scope.nouveauMail.subject) {
+        if (
+          !confirm(
+            "Confirmation\n\nEtes vous certain de vouloir envoyer votre mail sans objet?"
+          )
+        ) {
+          return;
+        }
+      }
+      $scope.dossiers.forEach(function(item) {
+        if (item.value == "ENVOYES") {
+          $scope.nouveauMail.id = $scope.idProchainMail++;
+          item.emails.push($scope.nouveauMail);
+          $scope.nouveauMail = null;
+          $location.path("/");
+        }
+      });
     };
 
     $scope.$watch(
