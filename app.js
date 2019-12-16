@@ -1,20 +1,24 @@
 angular
-  .module("Webmail", ["ngSanitize", "ui.tinymce", "MailServiceMock"])
-  .controller("WebmailCtrl", function($scope, $location, $filter, mailService) {
-    $scope.idProchainMail = 12;
+  .module("Webmail", [
+    "ngSanitize",
+    "ui.tinymce",
+    "MailServiceMock",
+    "MesFiltres",
+    "MesDirectives"
+  ])
+  .controller("WebmailCtrl", function($scope, $location, mailService) {
     $scope.dossierCourant = null;
     $scope.emailCourant = null;
-    $scope.nouveauMail = null;
+    $scope.afficherNouveauMail = false;
+    $scope.vueCourante = null;
 
     $scope.selectDossier = function(valDossier) {
+      $scope.vueCourante = "vueDossier";
       $scope.dossierCourant = mailService.getDossier(valDossier);
-      $scope.emailCourant = null;
-      if (valDossier) {
-        $scope.nouveauMail = null;
-      }
     };
 
     $scope.selectEmail = function(valDossier, idEmail) {
+      $scope.vueCourante = "vueContenuMail";
       $scope.emailCourant = mailService.getMail(valDossier, idEmail);
     };
 
@@ -22,34 +26,8 @@ angular
       $location.path(`/${dossier.value}/${email.id}`);
     };
 
-    $scope.razMail = function() {
-      $scope.nouveauMail = {
-        from: "PierreL",
-        date: new Date()
-      };
-      if (tinyMCE.activeEditor) {
-        tinyMCE.activeEditor.setContent("");
-      }
-      $scope.formNouveauMail.$setPristine();
-    };
-
-    $scope.envoiMail = function() {
-      const mailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-      if (!$scope.nouveauMail.to || !$scope.nouveauMail.to.match(mailRegex)) {
-        alert("Erreur \n\n Vérifiez votre saisie");
-        return;
-      }
-      if (!$scope.nouveauMail.subject) {
-        if (
-          !confirm(
-            "Confirmation\n\nEtes vous certain de vouloir envoyer votre mail sans objet?"
-          )
-        ) {
-          return;
-        }
-      }
-      mailService.envoiMail($scope.nouveauMail);
+    $scope.envoiMail = function(nouveauMail) {
+      mailService.envoiMail(nouveauMail);
       $location.path("/");
     };
 
@@ -61,19 +39,20 @@ angular
         const tabPath = newPath.split("/");
         if (tabPath.length > 1 && tabPath[1]) {
           if (tabPath[1] == "nouveauMail") {
-            $scope.razMail();
-            $scope.selectDossier(null);
+            $scope.vueCourante = "vueNouveauMail";
+            $scope.$broadcast("initFormNouveauMail");
           } else {
             const valDossier = tabPath[1];
             $scope.selectDossier(valDossier);
             if (tabPath.length > 2) {
               const idEmail = tabPath[2];
               $scope.selectEmail(valDossier, idEmail);
+            } else {
+              $scope.selectDossier(valDossier);
             }
           }
         } else {
-          $scope.selectDossier(null);
-          $scope.nouveauMail = null;
+          $scope.vueCourante = null;
         }
       }
     );
@@ -105,22 +84,5 @@ angular
       $scope.recherche = null;
     };
 
-    $scope.optionsTinyMce = {
-      language: "fr_FR",
-      menubar: false,
-      statusbar: false
-    };
-
     $scope.dossiers = mailService.getDossiers();
-  })
-  .filter("surbrillance", function() {
-    return function(input, recherche) {
-      if (recherche) {
-        return input.replace(
-          new RegExp("(" + recherche + ")", "gi"),
-          "<span class='surbrillance'>$1</span>"
-        );
-      }
-      return input;
-    };
   });
